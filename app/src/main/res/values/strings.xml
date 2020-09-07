@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">FlipCard</string>
+    <string name="support">Hỗ trợ</string>
+    <string name="guide">Hướng dẫn</string>
+    <string name="exit">Thoát</string>
+    <string name="guideGame">Chọn Hai thẻ để lật qua, nếu các hình ảnh giống nhau, bạn sẽ nhận được điểm, nếu không các tự lật lại hình ảnh.
+     Bạn phải chọn chính xác các hình ảnh với một số lượt và thời gian nhất định</string>
+    <string name="point">0</string>
+    <string name="youWin">Bạn thắng</string>
+    <string name="shuffle">Bạn vừa đổi bài</string>
+    <string name="notShuffle">Đổi bài lỗi</string>
+    <string name="startGame">Bắt đầu</string>
+    <string name="confirm">Xác nhận</string>
+    <string name="doYouRestart">Bạn có muốn chơi lại không?</string>
+    <string name="yes">Đồng ý</string>
+    <string name="no">Không đồng ý</string>
+    <string name="comeback">Trở về</string>
+    <string name="lose">Bạn thua</string>
+
+</resources>

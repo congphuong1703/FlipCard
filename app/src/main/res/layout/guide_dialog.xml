@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/guideExit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/MyMaterialDialogButton"
+        android:textColor="@color/colorAccent"
+        android:text="X"
+        android:textSize="18sp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="24dp"
+        />
+    <TextView
+        android:id="@+id/guideContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/guideExit"
+        android:text="@string/guideGame"
+        android:textSize="18sp"
+        android:textColor="@color/colorPrimary"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="48dp"
+        android:layout_marginRight="48dp"
+        android:layout_marginBottom="4dp"/>
+    <Button
+        android:id="@+id/guideOk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/MyMaterialDialogButton"
+        android:textColor="@color/colorAccent"
+        android:text="OK"
+        android:textSize="18sp"
+        android:layout_below="@id/guideContent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="8dp"/>
+
+</RelativeLayout>

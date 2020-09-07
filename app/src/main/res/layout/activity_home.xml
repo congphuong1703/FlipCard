@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:padding="16dp"
+    android:gravity="center"
+    tools:context="MainActivity"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btnStart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/progress_bar"
+        android:layout_marginBottom="12dp"
+        android:text="@string/startGame"
+        android:theme="@style/MyMaterialDialogButton" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:progressTint="@color/colorProgressBar"
+        android:secondaryProgressTint="@color/colorPrimaryDark" />
+
+</LinearLayout>
