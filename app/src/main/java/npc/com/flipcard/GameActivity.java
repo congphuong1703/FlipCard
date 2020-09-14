@@ -3,21 +3,32 @@ package npc.com.flipcard;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.app.ActionBar;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -43,19 +54,24 @@ public class GameActivity extends AppCompatActivity {
     ProgressBar bar;
 
     private ObjectAnimator progressAnimation;
+    private MusicAdapter musicAdapter;
 
     ArrayList<ImageView> activeCards;
     ArrayList<Integer> checkMarkIndexes;
     ArrayList<Integer> gameArrayList;
+    private MediaPlayer mediaPlayer;
+
 
     int pointCounter;
-    final long totalTime = 181000;
     int countShuffle;
-    private boolean won;
+    private boolean won = false;
     Integer[] gameArray;
     ImageAdapter adapter;
     int[] indexes;
-
+    Bundle keys;
+    Dialog winDialog;
+    Button btnClose;
+    ImageView ivClose;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,11 +84,10 @@ public class GameActivity extends AppCompatActivity {
         won = false;
         activeCards = new ArrayList<>();
         checkMarkIndexes = new ArrayList<>();
-
-        this.initTime();
-
+        initTime();
         progressAnimation.start();
 
+        keys = getIntent().getExtras();
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
@@ -87,6 +102,12 @@ public class GameActivity extends AppCompatActivity {
             gridView.getAdapter().getView(i, null, gridView).setTag(R.drawable.card);
             ((ImageView) gridView.getAdapter().getView(i, null, gridView)).setImageResource(R.drawable.card);
         }
+
+        mediaPlayer = musicAdapter.mediaPlayerMusic;
+        if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
+            if(musicAdapter.isPlayingSound)
+                musicAdapter.playSound(this);
+        }
     }
 
     @OnItemClick(R.id.game_layout)
@@ -96,9 +117,11 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        progressAnimation.resume();
         super.onResume();
     }
 
+    @Override
     public void onBackPressed() {
         this.pauseGame();
     }
@@ -109,10 +132,11 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void pauseGame() {
-        Intent pause = new Intent(this, PauseDialog.class);
+        Intent pause = new Intent(this, SettingsActivity.class);
         pause.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        pause.putExtra("state", true);
+        pause.putExtra("state", "true");
         startActivity(pause);
+        progressAnimation.pause();
     }
 
     public void checkGame(final View card, final int position) {
@@ -182,10 +206,13 @@ public class GameActivity extends AppCompatActivity {
                             gridView.getAdapter().getView(indexes[i], null, gridView).setTag(R.drawable.checkmark);
                             checkMarkIndexes.add(indexes[i]);
                             activeCards.get(i).setTag(R.drawable.checkmark);
-
                         }
                         //clear when 2 card equal and done handle
                         activeCards.clear();
+
+                        if(musicAdapter.isPlayingMusic){
+                            musicAdapter.playMusic(GameActivity.this,R.raw.ting);
+                        }
 
                     }
                     gridView.setEnabled(true);
@@ -194,11 +221,71 @@ public class GameActivity extends AppCompatActivity {
             }, 500);
         }
 
-        if (pointCounter > 9) {
-            Toast.makeText(this, R.string.youWin, Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(GameActivity.this, MainActivity.class);
-            startActivity(intent);
+        if (isWon()) {
+            showWonDialog();
         }
+    }
+
+    private void showLoseDialog() {
+        winDialog.setContentView(R.layout.guide_dialog);
+        winDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        Window window = winDialog.getWindow();
+        window.setGravity(Gravity.CENTER);
+        window.getAttributes().windowAnimations = R.style.AlertDialogTheme;
+
+        btnClose = winDialog.findViewById(R.id.btnClose);
+        ivClose = winDialog.findViewById(R.id.ivClose);
+
+        btnClose.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                winDialog.dismiss();
+            }
+        });
+
+        ivClose.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                winDialog.dismiss();
+            }
+        });
+
+        window.setLayout(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
+        winDialog.show();
+    }
+
+    private void showWonDialog() {
+        winDialog.setContentView(R.layout.guide_dialog);
+        winDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        Window window = winDialog.getWindow();
+        window.setGravity(Gravity.CENTER);
+        window.getAttributes().windowAnimations = R.style.AlertDialogTheme;
+
+        btnClose = winDialog.findViewById(R.id.btnClose);
+        ivClose = winDialog.findViewById(R.id.ivClose);
+
+        btnClose.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                winDialog.dismiss();
+            }
+        });
+
+        ivClose.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                winDialog.dismiss();
+            }
+        });
+
+        window.setLayout(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
+        winDialog.show();
     }
 
     @OnClick(R.id.shuffle)
@@ -257,50 +344,29 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-    }
 
-    private void initTime() {
+    public void initTime() {
         progressAnimation = ObjectAnimator.ofInt(bar, "progress", 0, 100);
 
-        progressAnimation.setDuration(7000);
+        //2 minutes
+        progressAnimation.setDuration(1000 * 60 * 2);
 
         progressAnimation.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationStart(animation);
 
-                dialogLose();
+                showLoseDialog();
             }
         });
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
     }
 
-
-    public void dialogLose() {
-        AlertDialog.Builder b = new AlertDialog.Builder(this);
-        b.setTitle(R.string.confirm);
-        b.setMessage(R.string.lose);
-        b.setMessage(R.string.doYouRestart);
-        b.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-
-            public void onClick(DialogInterface dialog, int id) {
-                onRestart();
-            }
-        });
-        b.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-
-            public void onClick(DialogInterface dialog, int id) {
-
-                Intent intent = new Intent(GameActivity.this, HomeActivity.class);
-                startActivity(intent);
-            }
-        });
-        AlertDialog al = b.create();
-        al.show();
+    public boolean isWon() {
+        if (pointCounter > 9)
+            won = true;
+        return won;
     }
-
 }

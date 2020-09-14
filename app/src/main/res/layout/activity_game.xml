@@ -49,7 +49,8 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="20dp"
         android:layout_toStartOf="@+id/shuffle"
-        android:layout_toLeftOf="@+id/shuffle" />
+        android:layout_toLeftOf="@+id/shuffle"
+        android:progressDrawable="@drawable/progress_game" />
 
     <ImageView
         android:id="@+id/pause"

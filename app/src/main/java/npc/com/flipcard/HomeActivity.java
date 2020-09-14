@@ -2,14 +2,13 @@ package npc.com.flipcard;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.view.View;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -18,6 +17,8 @@ public class HomeActivity extends AppCompatActivity {
 
 
     private Bundle keys;
+    MusicAdapter musicAdapter;
+    private MediaPlayer mediaPlayer;
 
 
     @Override
@@ -25,19 +26,21 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
+        mediaPlayer = musicAdapter.mediaPlayerMusic;
+        if (musicAdapter.isPlayingSound)
+            musicAdapter.playSound(this);
     }
 
-    public void diaglog() {
+    public void dialogExit() {
         AlertDialog.Builder b = new AlertDialog.Builder(this);
-        b.setTitle("Xác nhận");
-        b.setMessage("Bạn có đồng ý thoát chương trình không?");
-        b.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+        b.setTitle(R.string.confirm);
+        b.setMessage(R.string.doYouExit);
+        b.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 finish();
             }
         });
-        b.setNegativeButton("Không đồng ý", new DialogInterface.OnClickListener() {
+        b.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
             }
@@ -59,21 +62,24 @@ public class HomeActivity extends AppCompatActivity {
 
     @OnClick(R.id.btnSettings)
     public void settings() {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        DialogFragment settingsDialog = SettingsDialog.newInstance();
+        startActivity(new Intent(this, SettingsActivity.class));
     }
 
+    public void onBackPressed() {
+        this.dialogExit();
+    }
 
 //    @OnClick(R.id.btnRank)
 //    public void rank() {
 //        startActivity(new Intent(this, Rank.class);
 //    }
 
-    @OnClick(R.id.btnStore)
-    public void store() {
-        Uri uri = Uri.parse("http://www.facebook.com/congphuong1703");
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        startActivity(intent);
+    @OnClick(R.id.btnShop)
+    public void goShop(View view) {
+        Intent viewIntent =
+                new Intent("android.intent.action.VIEW",
+                        Uri.parse("market://details?id=com.facebook.lite"));
+        startActivity(viewIntent);
     }
 
 //    @OnClick(R.id.btnSupport)

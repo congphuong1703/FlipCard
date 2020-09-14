@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    android:padding="16dp"
     android:gravity="center"
-    tools:context="MainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context="MainActivity">
 
     <Button
         android:id="@+id/btnStart"
@@ -23,8 +23,7 @@
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:progressTint="@color/colorProgressBar"
-        android:secondaryProgressTint="@color/colorPrimaryDark" />
+        android:indeterminate="false"
+        android:progressDrawable="@drawable/pb_drawable" />
 
 </LinearLayout>

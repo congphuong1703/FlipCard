@@ -4,12 +4,16 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,26 +25,34 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar bar;
 
     @BindView(R.id.btnStart)
-    Button button;
+    Button startBtn;
 
     private ObjectAnimator progressAnimation;
+    private MusicAdapter musicAdapter;
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
+        mediaPlayer = musicAdapter.mediaPlayerMusic;
+        if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
+            if(musicAdapter.isPlayingSound)
+                musicAdapter.playSound(this);
+        }
 
         init();
 
-        progressAnimation.setDuration(7000);
+        //30 seconds
+        progressAnimation.setDuration(60 * 30);
 
         progressAnimation.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationStart(animation);
 
-                Intent intent =new Intent(MainActivity.this,HomeActivity.class);
+                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                 startActivity(intent);
             }
         });
@@ -50,15 +62,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.btnStart)
-    public void goHome(){
+    public void goHome(View view) {
         progressAnimation.start();
-
-        Toast.makeText(getBaseContext(),"Đang tải...",Toast.LENGTH_SHORT).show();
-
+        Toast.makeText(getBaseContext(), R.string.loading, Toast.LENGTH_SHORT).show();
     }
 
-    private void init(){
-        progressAnimation = ObjectAnimator.ofInt(bar,"progress",0,100);
+    private void init() {
+        progressAnimation = ObjectAnimator.ofInt(bar, "progress", 0, 100);
     }
 
 }
