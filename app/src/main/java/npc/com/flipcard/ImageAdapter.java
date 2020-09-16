@@ -31,32 +31,55 @@ public class ImageAdapter extends BaseAdapter {
         return 0;
     }
 
-    public ImageAdapter(Context context, boolean shuffle) {
+    public ImageAdapter(Context context, boolean shuffle, String typeGame) {
         this.context = context;
-
         if (check == false) {
-            androidPhotos = new Integer[]{
-                    R.drawable.pikachu,
-                    R.drawable.pikachu1,
-                    R.drawable.pikachu2,
-                    R.drawable.pikachu3,
-                    R.drawable.pikachu4,
-                    R.drawable.pikachu20,
-                    R.drawable.pikachu6,
-                    R.drawable.pikachu9,
-                    R.drawable.pikachu8,
-                    R.drawable.pikachu10,
-                    R.drawable.pikachu,
-                    R.drawable.pikachu1,
-                    R.drawable.pikachu2,
-                    R.drawable.pikachu3,
-                    R.drawable.pikachu4,
-                    R.drawable.pikachu20,
-                    R.drawable.pikachu6,
-                    R.drawable.pikachu9,
-                    R.drawable.pikachu8,
-                    R.drawable.pikachu10,
-            };
+            if (typeGame.equals("flag")) {
+                androidPhotos = new Integer[]{
+                        R.drawable.vietnam,
+                        R.drawable.thailand,
+                        R.drawable.italy,
+                        R.drawable.america,
+                        R.drawable.england,
+                        R.drawable.germany,
+                        R.drawable.spain,
+                        R.drawable.china,
+                        R.drawable.korea,
+                        R.drawable.egypt,
+                        R.drawable.vietnam,
+                        R.drawable.thailand,
+                        R.drawable.italy,
+                        R.drawable.america,
+                        R.drawable.england,
+                        R.drawable.germany,
+                        R.drawable.spain,
+                        R.drawable.china,
+                        R.drawable.korea,
+                        R.drawable.egypt,
+                };
+            } else if (typeGame.equals("pokemon"))
+                androidPhotos = new Integer[]{
+                        R.drawable.pikachu,
+                        R.drawable.pikachu1,
+                        R.drawable.pikachu2,
+                        R.drawable.pikachu3,
+                        R.drawable.pikachu4,
+                        R.drawable.pikachu20,
+                        R.drawable.pikachu6,
+                        R.drawable.pikachu9,
+                        R.drawable.pikachu8,
+                        R.drawable.pikachu10,
+                        R.drawable.pikachu,
+                        R.drawable.pikachu1,
+                        R.drawable.pikachu2,
+                        R.drawable.pikachu3,
+                        R.drawable.pikachu4,
+                        R.drawable.pikachu20,
+                        R.drawable.pikachu6,
+                        R.drawable.pikachu9,
+                        R.drawable.pikachu8,
+                        R.drawable.pikachu10,
+                };
         }
 
         if (shuffle) {
@@ -95,10 +118,9 @@ public class ImageAdapter extends BaseAdapter {
         return card;
     }
 
-    public void shuffleArray(){
+    public void shuffleArray() {
         Random random = new Random();
-        for (int i = androidPhotos.length - 1; i > 0; i--)
-        {
+        for (int i = androidPhotos.length - 1; i > 0; i--) {
             int index = random.nextInt(i + 1);
 
             int a = androidPhotos[index];

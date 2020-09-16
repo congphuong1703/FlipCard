@@ -29,18 +29,14 @@ public class MainActivity extends AppCompatActivity {
 
     private ObjectAnimator progressAnimation;
     private MusicAdapter musicAdapter;
-    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
-        mediaPlayer = musicAdapter.mediaPlayerMusic;
-        if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
-            if(musicAdapter.isPlayingSound)
-                musicAdapter.playSound(this);
-        }
+
+        musicAdapter.playSound(this);
 
         init();
 

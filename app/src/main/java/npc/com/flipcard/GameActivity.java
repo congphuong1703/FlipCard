@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.app.ActionBar;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -24,11 +23,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-import java.io.IOException;
+import com.nex3z.notificationbadge.NotificationBadge;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -53,6 +52,9 @@ public class GameActivity extends AppCompatActivity {
     @BindView(R.id.timeBar)
     ProgressBar bar;
 
+    @BindView(R.id.badgeShuffle)
+    NotificationBadge badgeShuffle;
+
     private ObjectAnimator progressAnimation;
     private MusicAdapter musicAdapter;
 
@@ -61,7 +63,6 @@ public class GameActivity extends AppCompatActivity {
     ArrayList<Integer> gameArrayList;
     private MediaPlayer mediaPlayer;
 
-
     int pointCounter;
     int countShuffle;
     private boolean won = false;
@@ -69,17 +70,39 @@ public class GameActivity extends AppCompatActivity {
     ImageAdapter adapter;
     int[] indexes;
     Bundle keys;
-    Dialog winDialog;
+    Dialog dialog;
     Button btnClose;
+    Button btnNewGame;
+    Button btnNextGame;
     ImageView ivClose;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        adapter = new ImageAdapter(this, true);
-        gameArray = adapter.getArray();
         ButterKnife.bind(this);
+
+        mediaPlayer = musicAdapter.mediaPlayerSound;
+        countShuffle = 5;
+        badgeShuffle.setNumber(countShuffle);
+        pointCounter = 0;
+        points.setText(Integer.toString(pointCounter));
+        indexes = new int[2];
+
+        keys = getIntent().getExtras();
+
+        if (keys != null) {
+
+            if ((keys.getString("game").equals("pokemon"))) {
+
+                adapter = new ImageAdapter(this, true, "pokemon");
+            } else if ((keys.getString("game").equals("flag"))) {
+
+                adapter = new ImageAdapter(this, true, "flag");
+            }
+        }
+
+        gameArray = adapter.getArray();
         gridView.setAdapter(adapter);
         won = false;
         activeCards = new ArrayList<>();
@@ -87,26 +110,18 @@ public class GameActivity extends AppCompatActivity {
         initTime();
         progressAnimation.start();
 
-        keys = getIntent().getExtras();
-
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
 
-        countShuffle = 5;
-        pointCounter = 0;
-        points.setText(Integer.toString(pointCounter));
-        indexes = new int[2];
+        if (musicAdapter.isPlayingSound)
+            if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
+                musicAdapter.playSound(this);
+            }
 
         for (int i = 0; i < gridView.getAdapter().getCount(); i++) {
             gridView.getAdapter().getView(i, null, gridView).setTag(R.drawable.card);
             ((ImageView) gridView.getAdapter().getView(i, null, gridView)).setImageResource(R.drawable.card);
-        }
-
-        mediaPlayer = musicAdapter.mediaPlayerMusic;
-        if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
-            if(musicAdapter.isPlayingSound)
-                musicAdapter.playSound(this);
         }
     }
 
@@ -121,6 +136,7 @@ public class GameActivity extends AppCompatActivity {
         super.onResume();
     }
 
+
     @Override
     public void onBackPressed() {
         this.pauseGame();
@@ -132,11 +148,13 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void pauseGame() {
+        progressAnimation.pause();
+
         Intent pause = new Intent(this, SettingsActivity.class);
         pause.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         pause.putExtra("state", "true");
+
         startActivity(pause);
-        progressAnimation.pause();
     }
 
     public void checkGame(final View card, final int position) {
@@ -210,8 +228,8 @@ public class GameActivity extends AppCompatActivity {
                         //clear when 2 card equal and done handle
                         activeCards.clear();
 
-                        if(musicAdapter.isPlayingMusic){
-                            musicAdapter.playMusic(GameActivity.this,R.raw.ting);
+                        if (musicAdapter.isPlayingMusic) {
+                            musicAdapter.playMusic(GameActivity.this, R.raw.ting);
                         }
 
                     }
@@ -227,21 +245,22 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void showLoseDialog() {
-        winDialog.setContentView(R.layout.guide_dialog);
-        winDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog = new Dialog(this);
+        dialog.setContentView(R.layout.lose_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        Window window = winDialog.getWindow();
+        Window window = dialog.getWindow();
         window.setGravity(Gravity.CENTER);
-        window.getAttributes().windowAnimations = R.style.AlertDialogTheme;
+        window.getAttributes().windowAnimations = R.style.AlertDialogAnimation;
 
-        btnClose = winDialog.findViewById(R.id.btnClose);
-        ivClose = winDialog.findViewById(R.id.ivClose);
+        btnClose = dialog.findViewById(R.id.btnClose);
+        ivClose = dialog.findViewById(R.id.ivClose);
 
         btnClose.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                winDialog.dismiss();
+                dialog.dismiss();
             }
         });
 
@@ -249,30 +268,31 @@ public class GameActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                winDialog.dismiss();
+                dialog.dismiss();
             }
         });
 
         window.setLayout(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
-        winDialog.show();
+        dialog.show();
     }
 
     private void showWonDialog() {
-        winDialog.setContentView(R.layout.guide_dialog);
-        winDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setContentView(R.layout.won_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        Window window = winDialog.getWindow();
+        Window window = dialog.getWindow();
         window.setGravity(Gravity.CENTER);
-        window.getAttributes().windowAnimations = R.style.AlertDialogTheme;
+        window.getAttributes().windowAnimations = R.style.AlertDialogAnimation;
 
-        btnClose = winDialog.findViewById(R.id.btnClose);
-        ivClose = winDialog.findViewById(R.id.ivClose);
+
+        btnClose = dialog.findViewById(R.id.btnClose);
+        ivClose = dialog.findViewById(R.id.ivClose);
 
         btnClose.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                winDialog.dismiss();
+                dialog.dismiss();
             }
         });
 
@@ -280,55 +300,61 @@ public class GameActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                winDialog.dismiss();
+                dialog.dismiss();
             }
         });
 
         window.setLayout(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
-        winDialog.show();
+        dialog.show();
     }
 
     @OnClick(R.id.shuffle)
     public void shuffleGame() {
 
-        int size = checkMarkIndexes.size();
-        if (pointCounter > 0) {
-            Integer[] newArray = new Integer[20];
+        if (countShuffle > 0) {
+            int size = checkMarkIndexes.size();
+            badgeShuffle.setNumber(--countShuffle);
 
-            int index = 0;
+            if (pointCounter > 0) {
+                Integer[] newArray = new Integer[20];
 
-            gameArrayList = new ArrayList<>(Arrays.asList(gameArray));
+                int index = 0;
 
-            //add array solved to new array
-            for (Integer checkMarkIndex : checkMarkIndexes) {
-                newArray[index] = gameArray[checkMarkIndex];
-                gameArrayList.set(checkMarkIndex.intValue(), -1);
-                index++;
-            }
+                gameArrayList = new ArrayList<>(Arrays.asList(gameArray));
 
-            //shuffle array not solve
-            this.shuffleArray();
-
-            //add array not solve to new array
-            for (Integer j : gameArrayList) {
-                if (j.intValue() != -1) {
-                    newArray[index] = j;
+                //add array solved to new array
+                for (Integer checkMarkIndex : checkMarkIndexes) {
+                    newArray[index] = gameArray[checkMarkIndex];
+                    gameArrayList.set(checkMarkIndex.intValue(), -1);
                     index++;
                 }
+
+                //shuffle array not solve
+                this.shuffleArray();
+
+                //add array not solve to new array
+                for (Integer j : gameArrayList) {
+                    if (j.intValue() != -1) {
+                        newArray[index] = j;
+                        index++;
+                    }
+                }
+
+                gameArray = newArray;
+
+                //update new array to grid view
+                ((ImageAdapter) gridView.getAdapter()).updateAdapter(newArray, size);
+
+                for (int i = 0; i < (pointCounter * 2); i++) {
+                    checkMarkIndexes.set(i, i);
+                }
+
+                Toast.makeText(this, R.string.shuffle, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, R.string.notShuffle, Toast.LENGTH_SHORT).show();
             }
-
-            gameArray = newArray;
-
-            //update new array to grid view
-            ((ImageAdapter) gridView.getAdapter()).updateAdapter(newArray, size);
-
-            for (int i = 0; i < (pointCounter * 2); i++) {
-                checkMarkIndexes.set(i, i);
-            }
-
-            Toast.makeText(this, R.string.shuffle, Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, R.string.notShuffle, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.outOfShuffle, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -361,12 +387,42 @@ public class GameActivity extends AppCompatActivity {
         });
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
     }
 
     public boolean isWon() {
-        if (pointCounter > 9)
+        if (pointCounter > 9) {
             won = true;
+            countShuffle++;
+        }
         return won;
+    }
+
+    public int musicOfFlag(int image) {
+        switch (image) {
+            case R.drawable.vietnam:
+                return R.raw.vietnam;
+            case R.drawable.thailand:
+                return R.raw.thailand;
+            case R.drawable.italy:
+                return R.raw.italy;
+            case R.drawable.america:
+                return R.raw.america;
+            case R.drawable.england:
+                return R.raw.england;
+            case R.drawable.germany:
+                return R.raw.germany;
+            case R.drawable.spain:
+                return R.raw.spain;
+            case R.drawable.china:
+                return R.raw.china;
+            case R.drawable.korea:
+                return R.raw.korea;
+            case R.drawable.egypt:
+                return R.raw.egypt;
+            default:
+                return R.raw.ting;
+
+        }
+
     }
 }

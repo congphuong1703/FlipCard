@@ -13,23 +13,31 @@
     <ImageView
         android:id="@+id/shuffle"
         android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_above="@+id/game_layout"
-        android:layout_marginStart="0dp"
+        android:layout_height="36dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginEnd="22dp"
-        android:layout_marginRight="22dp"
-        android:layout_marginBottom="13dp"
+        android:layout_marginTop="20dp"
         android:layout_toStartOf="@+id/pause"
-        android:layout_toLeftOf="@+id/pause"
         android:src="@drawable/shuffle" />
+
+    <com.nex3z.notificationbadge.NotificationBadge
+        android:id="@+id/badgeShuffle"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_alignTop="@id/shuffle"
+        android:layout_marginLeft="-18dp"
+        android:layout_marginTop="-8dp"
+        android:layout_toRightOf="@id/shuffle"
+        app:badgeBackground="@drawable/badge_shuffle"
+        app:maxTextLength="2">
+
+    </com.nex3z.notificationbadge.NotificationBadge>
 
     <GridView
         android:id="@+id/game_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="40dp"
         android:columnWidth="120dp"
         android:gravity="center"
         android:horizontalSpacing="5dp"
@@ -42,34 +50,28 @@
     <ProgressBar
         android:id="@+id/timeBar"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="215dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/game_layout"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="20dp"
-        android:layout_toStartOf="@+id/shuffle"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="2dp"
         android:layout_toLeftOf="@+id/shuffle"
+        android:layout_toRightOf="@+id/point_counter"
         android:progressDrawable="@drawable/progress_game" />
 
     <ImageView
         android:id="@+id/pause"
         android:layout_width="50dp"
         android:layout_height="36dp"
-        android:layout_above="@+id/game_layout"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginEnd="-9dp"
-        android:layout_marginRight="-9dp"
-        android:layout_marginBottom="11dp"
+        android:layout_marginTop="20dp"
         android:src="@drawable/pause" />
 
     <TextView
         android:id="@+id/point_counter"
-        android:layout_width="53dp"
+        android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="0.2dp"
+        android:layout_marginTop="20dp"
         android:text="@string/point"
         android:textSize="@dimen/textSize" />
 

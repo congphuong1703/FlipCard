@@ -7,5 +7,8 @@
     <color name="colorBlack">#000000</color>
     <color name="colorProgressBar">#FFBC8F8F</color>
     <color name="colorFont">#a46219</color>
+    <color name="red">#FF1100</color>
+    <color name="green">#28a745</color>
+    <color name="greenLight">#90ee90</color>
 
 </resources>

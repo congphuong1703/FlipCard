@@ -55,13 +55,13 @@
                     android:id="@+id/ivPlayContinue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/pause" />
+                    android:src="@drawable/play_arrow" />
 
                 <TextView
                     android:id="@+id/tvPlayContinue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/playContinue"
+                    android:text="@string/playNew"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
                     android:textSize="18sp"

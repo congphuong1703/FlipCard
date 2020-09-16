@@ -3,6 +3,7 @@ package npc.com.flipcard;
 import android.app.ActionBar;
 import android.app.ActivityManager;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -17,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
@@ -54,6 +56,7 @@ public class SettingsActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         guideDialog = new Dialog(this);
+        mediaPlayer = musicAdapter.mediaPlayerSound;
 
         //hide action bar
         if (getSupportActionBar() != null) {
@@ -64,16 +67,15 @@ public class SettingsActivity extends AppCompatActivity {
 
         if (keys != null) {
             if (!(keys.getString("state").equals(null))) {
-                tvPlayContinue.setText("Chơi tiếp");
-                ivPlayContinue.setImageResource(R.drawable.play_arrow);
+                tvPlayContinue.setText(R.string.playContinue);
+                ivPlayContinue.setImageResource(R.drawable.pause);
             }
         }
 
-        mediaPlayer = musicAdapter.mediaPlayerMusic;
-        if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
-            if (musicAdapter.isPlayingSound)
+        if (musicAdapter.isPlayingSound)
+            if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
                 musicAdapter.playSound(this);
-        }
+            }
 
         if (!musicAdapter.isPlayingMusic)
             imgSound.setImageResource(R.drawable.music_mute);
@@ -116,10 +118,25 @@ public class SettingsActivity extends AppCompatActivity {
 
     @OnClick(R.id.store)
     public void onStore() {
-        Intent viewIntent =
-                new Intent("android.intent.action.VIEW",
-                        Uri.parse("market://details?id=com.facebook.lite"));
-        startActivity(viewIntent);
+        AlertDialog.Builder b = new AlertDialog.Builder(this);
+        b.setTitle(R.string.confirm);
+        b.setMessage(R.string.doYouIntent);
+        b.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+                Intent viewIntent =
+                        new Intent("android.intent.action.VIEW",
+                                Uri.parse("market://details?id=com.facebook.lite"));
+                startActivity(viewIntent);
+            }
+        });
+        b.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog al = b.create();
+        al.show();
     }
 
     @OnClick(R.id.guide)

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">FlipCard</string>
     <string name="support">Hỗ trợ</string>
-    <string name="exit">Thoát</string>
+    <string name="exit">Thoát </string>
     <string name="guideGame">Chọn hai thẻ để lật qua, nếu các hình ảnh giống nhau, bạn sẽ nhận được điểm, nếu không các tự lật lại hình ảnh.
      Bạn phải chọn chính xác các hình ảnh với một số lượt và thời gian nhất định</string>
     <string name="point">0</string>
@@ -19,6 +19,7 @@
     <string name="loading">Đang tải...</string>
     <string name="back">Trở về</string>
     <string name="playContinue">Chơi tiếp</string>
+    <string name="playNew">Chơi mới</string>
     <string name="settings">Cài đặt</string>
     <string name="music">Âm thanh</string>
     <string name="sound">Nhạc nền</string>
@@ -31,5 +32,12 @@
     <string name="rank">Top 1</string>
     <string name="point_highest">1</string>
     <string name="point_current">1</string>
+    <string name="flag">Quốc kỳ</string>
+    <string name="pokemon">Pokemon</string>
+    <string name="outOfShuffle">Bạn đã hết lượt</string>
+    <string name="doYouIntent">Bạn có muốn chuyển hướng không ?</string>
+    <string name="congratulations">Chúc mừng bạn đã hoàn thành thử thách. Hãy giữ phong độ bạn nhé</string>
+    <string name="youLose">Bạn đã không hoàn thành thử thách. Chúc bạn may mắn lần sau</string>
+    <string name="pointsWin">0</string>
 
 </resources>

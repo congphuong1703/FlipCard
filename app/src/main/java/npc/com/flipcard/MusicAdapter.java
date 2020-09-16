@@ -32,7 +32,7 @@ public class MusicAdapter {
     public static void playMusic(Context context, int id) {
         mediaPlayerMusic = MediaPlayer.create(context, id);
         mediaPlayerMusic.setLooping(false);
-        mediaPlayerSound.setVolume(100, 100);
+        mediaPlayerMusic.setVolume(100, 100);
         mediaPlayerMusic.start();
         isPlayingMusic = true;
     }
