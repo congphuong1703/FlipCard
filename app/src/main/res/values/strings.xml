@@ -39,5 +39,5 @@
     <string name="congratulations">Chúc mừng bạn đã hoàn thành thử thách. Hãy giữ phong độ bạn nhé</string>
     <string name="youLose">Bạn đã không hoàn thành thử thách. Chúc bạn may mắn lần sau</string>
     <string name="pointsWin">0</string>
-
-</resources>
+    <string name="author">Design by NPC and TD</string>
+s</resources>
