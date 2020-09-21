@@ -349,7 +349,7 @@ public class GameActivity extends AppCompatActivity {
         btnClose = dialog.findViewById(R.id.btnClose);
         ivClose = dialog.findViewById(R.id.ivClose);
         btnNextGame = dialog.findViewById(R.id.btnNextGame);
-        score_lose = dialog.findViewById(R.id.btnNextGame);
+        score_won = dialog.findViewById(R.id.score_won);
 
         score_won.setText(Integer.toString(user.getScoreCurrent()));
 

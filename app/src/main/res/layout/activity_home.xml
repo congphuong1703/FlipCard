@@ -38,7 +38,7 @@
             android:id="@+id/tv_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cào mừng bạn đến với FLIPCARD"
+            android:text="Chào mừng bạn đến với FLIPCARD"
             android:textSize="20sp"
             android:textStyle="bold" />
 

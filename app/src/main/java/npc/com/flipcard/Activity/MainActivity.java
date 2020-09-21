@@ -42,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
+
         sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
