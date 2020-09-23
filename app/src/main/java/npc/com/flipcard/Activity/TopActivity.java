@@ -1,5 +1,6 @@
 package npc.com.flipcard.Activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,11 +9,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import npc.com.flipcard.Adapter.TopAdapter;
 import npc.com.flipcard.Database.DatabaseHelper;
 import npc.com.flipcard.Model.GamerModel;
@@ -23,12 +26,18 @@ public class TopActivity extends AppCompatActivity {
     @BindView(R.id.listTop)
     ListView listView;
 
+    @BindView(R.id.scoreCurrent)
+    TextView scoreCurrent;
+
+    @BindView(R.id.topCurrent)
+    TextView topCurrent;
+
+    @BindView(R.id.usernameCurrent)
+    TextView usernameCurrent;
+
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
-    TextView usernameCurrent;
-    TextView topCurrent;
-    TextView scoreCurrent;
 
     final DatabaseHelper databaseHelper = new DatabaseHelper(this);
 
@@ -43,8 +52,6 @@ public class TopActivity extends AppCompatActivity {
 
         GamerModel gamerModel = databaseHelper.getByName(sharedPreferences.getString("username", "Unknown"));
         List<GamerModel> gamerModelList = databaseHelper.getAll();
-
-        bindData(R.layout.activity_top);
 
         topCurrent.setText(Integer.toString(rankOrder(gamerModelList, gamerModel.getName())));
         usernameCurrent.setText(gamerModel.getName());
@@ -64,12 +71,11 @@ public class TopActivity extends AppCompatActivity {
         return 0;
     }
 
-    public void bindData(int resource) {
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(resource, null);
-        topCurrent = view.findViewById(R.id.topCurrent);
-        usernameCurrent = view.findViewById(R.id.usernameCurrent);
-        scoreCurrent = view.findViewById(R.id.scoreCurrent);
+    @OnClick(R.id.cardReturn)
+    public void onMain() {
+        finish();
+        startActivity(new Intent(this, HomeActivity.class));
     }
+
 
 }
