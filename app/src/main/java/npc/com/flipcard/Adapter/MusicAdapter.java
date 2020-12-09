@@ -1,6 +1,7 @@
 package npc.com.flipcard.Adapter;
 
 import android.content.Context;
+import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 
@@ -20,7 +21,11 @@ public class MusicAdapter {
         mediaPlayerSound = MediaPlayer.create(context, R.raw.sound);
         mediaPlayerSound.setVolume(50, 50);
         mediaPlayerSound.setLooping(true);
-        mediaPlayerSound.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mediaPlayerSound.setAudioAttributes(
+                new AudioAttributes
+                        .Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                        .build());
         mediaPlayerSound.start();
         isPlayingSound = true;
     }
@@ -34,7 +39,12 @@ public class MusicAdapter {
     public static void playMusic(Context context, int id) {
         mediaPlayerMusic = MediaPlayer.create(context, id);
         mediaPlayerMusic.setLooping(false);
-        mediaPlayerMusic.setVolume(100, 100);
+        mediaPlayerSound.setAudioAttributes(
+                new AudioAttributes
+                        .Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                        .build());
+        mediaPlayerMusic.setVolume(50, 50);
         mediaPlayerMusic.start();
         isPlayingMusic = true;
     }

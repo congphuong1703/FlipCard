@@ -170,31 +170,6 @@
                     android:scaleType="centerCrop"
                     android:src="@drawable/flagvietnam" />
 
-<!--                <LinearLayout-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="60dp"-->
-<!--                    android:layout_gravity="center_vertical|center_horizontal"-->
-<!--                    android:layout_margin="16dp"-->
-<!--                    android:gravity="center"-->
-<!--                    android:orientation="vertical">-->
-
-<!--                                        <ImageView-->
-<!--                                            android:layout_width="wrap_content"-->
-<!--                                            android:layout_height="30dp"-->
-<!--                                            android:src="@drawable/play_button" />-->
-
-<!--                                        <TextView-->
-<!--                                            android:layout_width="wrap_content"-->
-<!--                                            android:layout_height="wrap_content"-->
-<!--                                            android:autoSizeMaxTextSize="26sp"-->
-<!--                                            android:text="@string/flag"-->
-<!--                                            android:textColor="#e5a82c"-->
-<!--                                            android:textAlignment="center"-->
-<!--                                            android:textSize="26sp"-->
-<!--                                            android:textStyle="bold" />-->
-
-<!--                </LinearLayout>-->
-
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
@@ -212,30 +187,6 @@
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
                     android:src="@drawable/pokemon" />
-
-<!--                <LinearLayout-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="60dp"-->
-<!--                    android:layout_gravity="center_vertical|center_horizontal"-->
-<!--                    android:layout_margin="16dp"-->
-<!--                    android:gravity="center"-->
-<!--                    android:orientation="vertical">-->
-
-<!--                    <ImageView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="30dp"-->
-<!--                        android:src="@drawable/play_button" />-->
-
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:autoSizeMaxTextSize="26sp"-->
-<!--                        android:text="@string/pokemon"-->
-<!--                        android:textAlignment="center"-->
-<!--                        android:textSize="26sp"-->
-<!--                        android:textStyle="bold" />-->
-
-<!--                </LinearLayout>-->
 
             </androidx.cardview.widget.CardView>
         </LinearLayout>
@@ -271,12 +222,6 @@
                         android:textSize="24sp"
                         android:textStyle="bold" />
 
-                    <!--                    <ImageView-->
-                    <!--                        android:layout_width="50dp"-->
-                    <!--                        android:layout_height="wrap_content"-->
-                    <!--                        android:layout_marginLeft="10dp"-->
-                    <!--                        android:background="#e5a82c"-->
-                    <!--                        android:src="@drawable/settings_icon" />-->
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -306,12 +251,6 @@
                         android:textSize="24sp"
                         android:textStyle="bold" />
 
-                    <!--                    <ImageView-->
-                    <!--                        android:layout_width="wrap_content"-->
-                    <!--                        android:layout_height="wrap_content"-->
-                    <!--                        android:layout_marginLeft="10dp"-->
-                    <!--                        android:src="@drawable/market" />-->
-
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -339,15 +278,8 @@
                         android:textAlignment="center"
                         android:textSize="24sp"
                         android:textStyle="bold" />
-
-                    <!--                    <ImageView-->
-                    <!--                        android:layout_width="50dp"-->
-                    <!--                        android:layout_height="wrap_content"-->
-                    <!--                        android:layout_marginLeft="10dp"-->
-                    <!--                        android:background="#e5a82c"-->
-                    <!--                        android:src="@drawable/exit" />-->
-
                 </LinearLayout>
+
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>

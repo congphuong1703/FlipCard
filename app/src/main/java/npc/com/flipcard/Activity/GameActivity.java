@@ -64,6 +64,9 @@ public class GameActivity extends AppCompatActivity {
     @BindView(R.id.badgeShuffle)
     NotificationBadge badgeShuffle;
 
+    @BindView(R.id.timlat)
+    Button timlat;
+
     private ObjectAnimator progressAnimation;
     private MusicAdapter musicAdapter;
     private MediaPlayer mediaPlayer;
@@ -92,12 +95,22 @@ public class GameActivity extends AppCompatActivity {
     TextView score_won;
     ImageView ivClose;
 
+    int solanlat = 0;
+    int solantimlat = 0;
+
+    int vitri;
+    View view;
+    ArrayList<Integer> timlatlist;
+    int image;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         ButterKnife.bind(this);
         indexes = new int[2];
+
         mediaPlayer = musicAdapter.mediaPlayerSound;
 
         sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
@@ -108,7 +121,7 @@ public class GameActivity extends AppCompatActivity {
         if (!user.isActive()) {
             user.setScoreCurrent(0);
             user.setShuffle(10);
-        }else{
+        } else {
 
         }
         countShuffle = user.getShuffle();
@@ -131,6 +144,7 @@ public class GameActivity extends AppCompatActivity {
         }
 
         gameArray = adapter.getArray();
+
         gridView.setAdapter(adapter);
         won = false;
         activeCards = new ArrayList<>();
@@ -185,28 +199,68 @@ public class GameActivity extends AppCompatActivity {
         startActivity(pause);
     }
 
+    @OnClick(R.id.timlat)
+    public void timlat() {
+
+        Integer[] newArray = new Integer[20];
+
+        int index = 0;
+
+        gameArrayList = new ArrayList<>(Arrays.asList(gameArray));
+
+        //add array not solve to new array
+        for (Integer j : gameArrayList) {
+            if (j.intValue() != -1) {
+                newArray[index] = j;
+                index++;
+            }
+        }
+
+        for (int i = 0; i < gameArray.length; i++) {
+            View view = ((ImageView) gridView.getAdapter().getView(i, null, gridView));
+            if (gameArray[i] == image && vitri != i) {
+                ObjectAnimator flip = ObjectAnimator.ofFloat(view, "rotationY", 0f, 180f);
+                flip.setDuration(150);
+                flip.start();
+                ((ImageView) view).setImageResource(gameArray[i]);
+
+                Toast.makeText(this, "Hình bạn muốn tìm : " + i, Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     public void checkGame(final View card, final int position) {
 
         final int[] music = new int[1];
         if ((int) (((ImageView) card).getTag()) != R.drawable.checkmark && activeCards.size() < 1) {
+            view = card;
+            vitri = position;
+            image = gameArray[position];
             activeCards.add((ImageView) card);
             indexes[0] = position;
             ObjectAnimator flip = ObjectAnimator.ofFloat(card, "rotationY", 0f, 180f);
             flip.setDuration(150);
             flip.start();
+
+            solanlat++;
+            Toast.makeText(this, "Số lần vừa lật : " + solanlat, Toast.LENGTH_SHORT).show();
+
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     ((ImageView) card).setImageResource(gameArray[position]);
                     ((ImageView) card).setTag(gameArray[position]);
                 }
+
             }, 250);
+
         }
 
         //So user doesn't press same image twice
         else if ((int) (((ImageView) card).getTag()) != R.drawable.checkmark && !((ImageView) card).equals(activeCards.get(0))) {
             activeCards.add((ImageView) card);
             indexes[1] = position;
+            view = card;
             ObjectAnimator flip = ObjectAnimator.ofFloat(card, "rotationY", 0f, 180f);
             flip.setDuration(250);
             flip.start();
@@ -222,7 +276,8 @@ public class GameActivity extends AppCompatActivity {
 
         if (activeCards.size() > 1) {
             gridView.setEnabled(false);
-
+            solanlat++;
+            Toast.makeText(this, "Số lần vừa lật : " + solanlat, Toast.LENGTH_SHORT).show();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -271,7 +326,9 @@ public class GameActivity extends AppCompatActivity {
                     }
 
                 }
+
             }, 500);
+
         }
 
 

@@ -18,7 +18,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import npc.com.flipcard.Adapter.MusicAdapter;
-import npc.com.flipcard.Adapter.TopAdapter;
 import npc.com.flipcard.Database.DatabaseHelper;
 import npc.com.flipcard.Model.GamerModel;
 import npc.com.flipcard.R;

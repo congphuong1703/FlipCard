@@ -75,5 +75,11 @@
         android:text="@string/point"
         android:textSize="@dimen/textSize" />
 
+    <Button
+        android:id="@+id/timlat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/shuffle"
+        android:text="Tìm lật" />
 </RelativeLayout>
 
