@@ -32,7 +32,7 @@
 
     </com.nex3z.notificationbadge.NotificationBadge>
 
-    <GridView
+  <!--  <GridView
         android:id="@+id/game_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,8 +44,21 @@
         android:numColumns="4"
         android:stretchMode="columnWidth"
         android:verticalSpacing="24dp">
+    </GridView>-->
 
-    </GridView>
+    <GridView
+            android:id="@+id/game_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="40dp"
+            android:columnWidth="140dp"
+            android:gravity="center"
+            android:horizontalSpacing="5dp"
+            android:numColumns="4"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="24dp">
+        </GridView>
 
     <ProgressBar
         android:id="@+id/timeBar"
@@ -74,12 +87,21 @@
         android:layout_marginTop="20dp"
         android:text="@string/point"
         android:textSize="@dimen/textSize" />
-
-    <Button
+    <!--<TextView
+        android:id="@+id/countTime"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/shuffle"
+        android:text="00"
+        android:textColor="@android:color/black"
+        android:textSize="20dp"
+        android:textStyle="normal" />-->
+    <!--<Button
         android:id="@+id/timlat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/shuffle"
-        android:text="Tìm lật" />
+        android:text="Tìm lật" />-->
 </RelativeLayout>
 

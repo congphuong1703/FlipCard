@@ -61,11 +61,14 @@ public class GameActivity extends AppCompatActivity {
     @BindView(R.id.timeBar)
     ProgressBar bar;
 
+   /* @BindView(R.id.countTime)
+    TextView countTime;*/
+
     @BindView(R.id.badgeShuffle)
     NotificationBadge badgeShuffle;
 
-    @BindView(R.id.timlat)
-    Button timlat;
+    /*@BindView(R.id.timlat)
+    Button timlat;*/
 
     private ObjectAnimator progressAnimation;
     private MusicAdapter musicAdapter;
@@ -94,7 +97,7 @@ public class GameActivity extends AppCompatActivity {
     TextView score_lose;
     TextView score_won;
     ImageView ivClose;
-
+    private Runnable runnable;
     int solanlat = 0;
     int solantimlat = 0;
 
@@ -164,8 +167,38 @@ public class GameActivity extends AppCompatActivity {
         for (int i = 0; i < gridView.getAdapter().getCount(); i++) {
             gridView.getAdapter().getView(i, null, gridView).setTag(R.drawable.card);
             ((ImageView) gridView.getAdapter().getView(i, null, gridView)).setImageResource(R.drawable.card);
+            /*TextView textView = new TextView(this);
+            textView.setText("1");
+            textView.setTextSize(30);
+            textView.setTextColor(getResources().getColor(R.color.colorBlack));
+            textView.setBackground(((ImageView) gridView.getAdapter().getView(i, null, gridView)).getDrawable());*/
         }
+//        countDownStart();
     }
+
+   /* private void countDownStart() {
+        Handler handler = new Handler();
+        runnable = new Runnable() {
+            long seconds = 100;
+
+            @Override
+            public void run() {
+                try {
+                    handler.postDelayed(this, 1000);
+
+                    if (seconds > 0) {
+                        countTime.setText(String.format("%02d", seconds));
+                        seconds--;
+                    } else {
+                        handler.removeCallbacks(runnable);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        handler.postDelayed(runnable, 1);
+    }*/
 
     @OnItemClick(R.id.game_layout)
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -199,7 +232,7 @@ public class GameActivity extends AppCompatActivity {
         startActivity(pause);
     }
 
-    @OnClick(R.id.timlat)
+   /* @OnClick(R.id.timlat)
     public void timlat() {
 
         Integer[] newArray = new Integer[20];
@@ -215,19 +248,28 @@ public class GameActivity extends AppCompatActivity {
                 index++;
             }
         }
-
         for (int i = 0; i < gameArray.length; i++) {
             View view = ((ImageView) gridView.getAdapter().getView(i, null, gridView));
             if (gameArray[i] == image && vitri != i) {
-                ObjectAnimator flip = ObjectAnimator.ofFloat(view, "rotationY", 0f, 180f);
+                int position = i;
+
+               *//* ObjectAnimator flip = ObjectAnimator.ofFloat(view, "rotationY", 0f, 180f);
                 flip.setDuration(150);
                 flip.start();
                 ((ImageView) view).setImageResource(gameArray[i]);
 
-                Toast.makeText(this, "Hình bạn muốn tìm : " + i, Toast.LENGTH_SHORT).show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((ImageView) view).setImageResource(gameArray[position]);
+                        ((ImageView) view).setTag(gameArray[position]);
+                    }
+
+                }, 250);*//*
+                Toast.makeText(this, "Hình bạn muốn tìm : " + (i + 1), Toast.LENGTH_SHORT).show();
             }
         }
-    }
+    }*/
 
     public void checkGame(final View card, final int position) {
 
@@ -243,7 +285,7 @@ public class GameActivity extends AppCompatActivity {
             flip.start();
 
             solanlat++;
-            Toast.makeText(this, "Số lần vừa lật : " + solanlat, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Số lần vừa lật : " + solanlat, Toast.LENGTH_SHORT).show();
 
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -277,7 +319,7 @@ public class GameActivity extends AppCompatActivity {
         if (activeCards.size() > 1) {
             gridView.setEnabled(false);
             solanlat++;
-            Toast.makeText(this, "Số lần vừa lật : " + solanlat, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Số lần vừa lật : " + solanlat, Toast.LENGTH_SHORT).show();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -288,7 +330,7 @@ public class GameActivity extends AppCompatActivity {
                     if (!(activeCards.get(0).getTag().equals(activeCards.get(1).getTag()))) {
                         for (int i = 0; i < size; i++) {
 
-                            flip = ObjectAnimator.ofFloat(activeCards.get(0), "rotationY", 0f, 180f);
+                            flip = ObjectAnimator.ofFloat(activeCards.get(0), "rotationY", 0f, 360f);
                             flip.setDuration(250);
                             flip.start();
 
